@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const {
-  makePaths
+  makePaths,
+  downloadAllCSVs
 } = require('../scripts/helpers')
 
 /* GET generate listing. */
@@ -13,7 +14,9 @@ router.get('/', function(req, res, next) {
   try {
     if (![baseUrl, files, xaxis, yaxis].some(x => x === undefined)) {
       const allPaths = makePaths(baseUrl, files);
-      res.send(allPaths);
+      downloadAllCSVs(allPaths, xaxis, yaxis).then((values) => {
+        res.send(values);
+      });
     } else {
       throw new Error("Expected query params 'baseUrl', 'files', 'xaxis' and 'yaxis'");
     }
