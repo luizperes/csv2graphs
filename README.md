@@ -21,13 +21,24 @@ _// TODO: add generated SVG image_
 Your server url with the path the include your file list.
 
 ##### files
-The CSV files (separated by `;`, e.g `file1;file2`)
+The CSV files (separated by `;`, e.g `file1;file2`).
 
 ##### xaxis
-The name of the xaxis column inside the CSV
+The name of the xaxis column inside the CSV.
 
 ##### yaxis
-The name of the yaxis column inside the CSV
+The name of the yaxis column inside the CSV.
+
+#### Optional parameters
+
+##### width
+The desired width.
+
+##### height
+The desired height.
+
+##### colors
+The desired colors for each of the lines (separated by `;`, e.g `color1;color2`).
 
 ### Running project
 
