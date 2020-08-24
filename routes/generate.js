@@ -6,7 +6,18 @@ const {
 
 /* GET generate listing. */
 router.get('/', function(req, res, next) {
-  res.send(makePaths("blah", "jaca"));
+  const baseUrl = req.query.baseUrl;
+  const files = req.query.files;
+  try {
+    if (baseUrl !== undefined && files !== undefined) {
+      const allPaths = makePaths(baseUrl, files);
+      res.send(allPaths);
+    } else {
+      throw new Error("Expected query params 'baseUrl' and 'files'");
+    }
+  } catch(e) {
+    next(e);
+  }
 });
 
 module.exports = router;
