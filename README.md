@@ -1,5 +1,5 @@
-# json2graphs
-Create SVG graphs from json files
+# csv2graphs
+Create SVG graphs from CSV files
 
 ### Running project
 
@@ -7,4 +7,4 @@ install dependencies:
 `npm install`
 
 run the app:
-`DEBUG=json2graphs:* npm start`
+`DEBUG=csv2graphs:* npm start`
