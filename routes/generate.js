@@ -20,7 +20,8 @@ router.get('/', function(req, res, next) {
       const allPaths = makePaths(baseUrl, files);
       downloadAllCSVs(allPaths, xaxis, yaxis).then((values) => {
         const graph = generateGraph(values, width, height, colors);
-        res.send(graph);
+        res.setHeader('content-type', 'image/svg+xml');
+        res.status(200).send(graph);
       });
     } else {
       throw new Error("Expected query params 'baseUrl', 'files', 'xaxis' and 'yaxis'");
