@@ -3,8 +3,12 @@ if (typeof fetch !== 'function') {
   global.fetch = require('node-fetch-polyfill');
 }
 
+makeFiles = (files) => {
+  return files.split(";");
+}
+
 makePaths = (baseUrl, files) => {
-  return files.split(";").map(file => `${baseUrl}/${file}.csv`);
+  return makeFiles(files).map(file => `${baseUrl}/${file}.csv`);
 }
 
 downloadAllCSVs = (csvs, xaxis, yaxis) => {
@@ -29,7 +33,7 @@ makeColor = (colors, i) => {
   return 'steelblue';
 }
 
-generateGraph = (data, w, h, colors) => {
+generateGraph = (data, w, h, colors, files) => {
   const d3n = new d3node();
   const d3 = d3n.d3;
   const margin = ({top: 20, right: 30, bottom: 30, left: 40});
@@ -40,7 +44,7 @@ generateGraph = (data, w, h, colors) => {
   const tickSize = 5;
   const lineWidth = 1.5;
 
-  const svg = d3n.createSVG(initWidth, initHeight)
+  const svg = d3n.createSVG(initWidth + margin.right, initHeight)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
   
@@ -77,6 +81,19 @@ generateGraph = (data, w, h, colors) => {
     .enter().append("path")
     .attr('stroke', (d, i) => makeColor(colors, i))
     .attr('d', lineChart);
+  
+  fnText = (filename, i) => {
+    g.append("text")
+      .attr("transform", "translate(" + (width+3) + "," + (i+1) * 20 + ")")
+      .attr("dy", ".35em")
+      .attr("text-anchor", "start")
+      .style("fill", makeColor(colors, i))
+      .text(filename);
+  };
+
+  if (files !== undefined) {
+    makeFiles(files).forEach(fnText);
+  }
 
   return d3n.svgString();
 }

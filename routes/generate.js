@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
     if (![baseUrl, files, xaxis, yaxis].some(x => x === undefined)) {
       const allPaths = makePaths(baseUrl, files);
       downloadAllCSVs(allPaths, xaxis, yaxis).then((values) => {
-        const graph = generateGraph(values, width, height, colors);
+        const graph = generateGraph(values, width, height, colors, files);
         res.setHeader('content-type', 'image/svg+xml');
         res.status(200).send(graph);
       });
