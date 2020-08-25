@@ -8,10 +8,10 @@ Create SVG graphs from CSV files
 - [example2.csv](https://github.com/luizperes/csv2graphs/blob/master/examples/example2.csv)
 
 ##### Request
-`https://csv2graphs.herokuapp.com/generate?baseUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fluizperes%2Fcsv2graphs%2Fmaster%2Fexamples&files=example1;example2&xaxis=date&yaxis=runtime&width=500&height=400&colors=green;red`
+`https://csv2graphs.herokuapp.com/generate?baseUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fluizperes%2Fcsv2graphs%2Fmaster%2Fexamples&files=example1;example2&xaxis=date&yaxis=runtime&width=500&height=400&colors=green;blue`
 
 ##### Response
-![SVG Response](https://csv2graphs.herokuapp.com/generate?baseUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fluizperes%2Fcsv2graphs%2Fmaster%2Fexamples&files=example1;example2&xaxis=date&yaxis=runtime&width=500&height=400&colors=green;red)
+![SVG Response](https://csv2graphs.herokuapp.com/generate?baseUrl=https%3A%2F%2Fraw.githubusercontent.com%2Fluizperes%2Fcsv2graphs%2Fmaster%2Fexamples&files=example1;example2&xaxis=date&yaxis=runtime&width=500&height=400&colors=green;blue)
 
 ### Usage:
 
