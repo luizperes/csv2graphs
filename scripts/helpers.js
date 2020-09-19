@@ -1,4 +1,5 @@
 const d3node = require('d3-node');
+const e = require('express');
 if (typeof fetch !== 'function') {
   global.fetch = require('node-fetch-polyfill');
 }
@@ -11,18 +12,44 @@ makePaths = (baseUrl, files) => {
   return makeFiles(files).map(file => `${baseUrl}/${file}.csv`);
 }
 
-downloadAllCSVs = (csvs, xaxis, yaxis) => {
+downloadAllCSVs = (csvs, xaxis, yaxis, sfmdObj, timeParse) => {
   const d3n = new d3node();
-  const parseTime = d3n.d3.timeParse("%d-%b-%y");
+  const datePattern = timeParse === undefined ? "%d-%b-%y" : timeParse;
+  const parseTime = d3n.d3.timeParse(datePattern);
 
-  fn = (csv) => d3n.d3.csv(csv, (d) => {
-    return {
-      x: parseTime(d[xaxis]),
-      y: d[yaxis]
-    }
-  });
-
-  return Promise.all(csvs.map(csv => fn(csv)));
+  if (sfmdObj.sfmd === undefined) {
+    fn = (csv) => d3n.d3.csv(csv, (d) => {
+      return {
+        x: parseTime(d[xaxis]),
+        y: d[yaxis]
+      }
+    }).then(v => {
+      console.log(v);
+      return v;
+    });
+    return Promise.all(csvs.map(csv => fn(csv)));
+  } else {
+    fn = (csv) => d3n.d3.csv(csv, (d) => {
+      return {
+        x: parseTime(d[xaxis]),
+        y: d[yaxis],
+        filter: d[sfmdObj.filter],
+        filterv: sfmdObj.filterv,
+        group: d[sfmdObj.group]
+      }
+    }).then(res => {
+      const filtered = res.filter(x => x.filterv === undefined || x.filterv === x.filter);
+      const grouped = filtered.reduce((r, a) => {
+        r[a.group] = [...r[a.group] || [], a];
+        return r;
+       }, {});
+      const groupedToIdx = Object.keys(grouped).map((key, _) => grouped[key]);
+      groupedToIdx.groupKeys = Object.keys(grouped);
+      console.log(groupedToIdx);
+      return groupedToIdx;
+    });
+    return fn(csvs[0])
+  }
 }
 
 makeColor = (colors, i) => {
@@ -92,7 +119,8 @@ generateGraph = (data, w, h, colors, files) => {
   };
 
   if (files !== undefined) {
-    makeFiles(files).forEach(fnText);
+    const arr = data.groupKeys === undefined ? makeFiles(files) : data.groupKeys;
+    arr.forEach(fnText);
   }
 
   return d3n.svgString();

@@ -40,6 +40,21 @@ The desired height.
 ##### colors
 The desired colors for each of the lines (separated by `;`, e.g `color1;color2`).
 
+##### sfmd
+Single file, multiple data. Set it to `true` in case you only have one csv file with multiple data and will use `filter` and `group`.
+
+##### group
+Group by column name. It **must** be specified whenever `sfmd` is set.
+
+##### filter
+Filter by column name. It **may** be specified whenever `sfmd` is set.
+
+##### filterv
+Value for the filter `column`. **Must** be defined whenever `filter` is defined.
+
+##### timeParse
+The pattern of the date to parse (JS style).
+
 ### Running project
 
 install dependencies:
