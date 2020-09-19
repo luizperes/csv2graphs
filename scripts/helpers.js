@@ -24,7 +24,6 @@ downloadAllCSVs = (csvs, xaxis, yaxis, sfmdObj, timeParse) => {
         y: d[yaxis]
       }
     }).then(v => {
-      console.log(v);
       return v;
     });
     return Promise.all(csvs.map(csv => fn(csv)));
@@ -45,7 +44,6 @@ downloadAllCSVs = (csvs, xaxis, yaxis, sfmdObj, timeParse) => {
        }, {});
       const groupedToIdx = Object.keys(grouped).map((key, _) => grouped[key]);
       groupedToIdx.groupKeys = Object.keys(grouped);
-      console.log(groupedToIdx);
       return groupedToIdx;
     });
     return fn(csvs[0])
