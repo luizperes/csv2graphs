@@ -44,6 +44,7 @@ downloadAllCSVs = (csvs, xaxis, yaxis, sfmdObj, timeParse) => {
        }, {});
       const groupedToIdx = Object.keys(grouped).map((key, _) => grouped[key]);
       groupedToIdx.groupKeys = Object.keys(grouped);
+      console.log(groupedToIdx)
       return groupedToIdx;
     });
     return fn(csvs[0])
@@ -78,8 +79,9 @@ generateGraph = (data, w, h, colors, files) => {
   const xScale = d3.scaleTime()
     .domain(d3.extent(data[0], d => d.x))
     .rangeRound([0, width]);
+  const range = [d3.min(data, d => d3.min(d, v => Number(v.y))), d3.max(data, d => d3.max(d, v => Number(v.y)))]
   const yScale = d3.scaleLinear()
-    .domain([d3.min(data, d => d3.min(d, v => v.y)), d3.max(data, d => d3.max(d, v => v.y))])
+    .domain(range)
     .rangeRound([height, 0]);
   const xAxis = d3.axisBottom(xScale)
     .tickSize(tickSize)
